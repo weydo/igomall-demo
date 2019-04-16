@@ -45,12 +45,18 @@ dependencies {
     compile group: 'org.springframework.boot',name:'spring-boot-starter-freemarker'
     compile group: 'org.springframework.boot',name:'spring-boot-starter-web'
 
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
+    compile group: 'org.jxls', name: 'jxls', version: '2.6.0'
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    compile group: 'org.ansj', name: 'ansj_lucene5_plug', version: '5.1.2.0'
+
     compile group: 'org.apache.shiro', name: 'shiro-core', version: '1.4.0'
     compile group: 'org.apache.shiro', name: 'shiro-web', version: '1.4.0'
     compile group: 'org.apache.shiro', name: 'shiro-spring', version: '1.4.0'
     compile group: 'org.apache.shiro', name: 'shiro-ehcache', version: '1.4.0'
     compile group: 'net.sf.ehcache', name: 'ehcache', version: '2.10.6'
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.6'
+
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
