@@ -1,6 +1,7 @@
 
 package com.igomall.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.igomall.util.FreeMarkerUtils;
 import freemarker.core.Environment;
 import freemarker.template.TemplateException;
@@ -45,6 +46,7 @@ public class ProductCategory extends OrderedEntity<Long> {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
+	@JsonView({ListView.class})
 	private String name;
 
 	/**
@@ -106,6 +108,7 @@ public class ProductCategory extends OrderedEntity<Long> {
 	 */
 	@OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
 	@OrderBy("order asc")
+	@JsonView({ListView.class})
 	private Set<ProductCategory> children = new HashSet<>();
 
 	/**
@@ -429,5 +432,7 @@ public class ProductCategory extends OrderedEntity<Long> {
 			recursiveParents(parents, parent);
 		}
 	}
+
+	public interface ListView extends BaseView {}
 
 }
