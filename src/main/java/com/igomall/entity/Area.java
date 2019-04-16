@@ -1,6 +1,7 @@
 
 package com.igomall.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Length;
 
@@ -33,6 +34,7 @@ public class Area extends OrderedEntity<Long> {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
+	@JsonView({ListView.class})
 	private String name;
 
 	/**
@@ -64,6 +66,7 @@ public class Area extends OrderedEntity<Long> {
 	 */
 	@OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	@OrderBy("order asc")
+	@JsonView({ListView.class})
 	private Set<Area> children = new HashSet<>();
 
 	/**
@@ -226,4 +229,7 @@ public class Area extends OrderedEntity<Long> {
 		}
 	}
 
+	public interface ListView extends BaseView{
+
+	}
 }

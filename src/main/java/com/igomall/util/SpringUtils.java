@@ -1,16 +1,14 @@
 
 package com.igomall.util;
 
-import java.util.Locale;
-import java.util.Map;
-
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-import org.springframework.web.servlet.LocaleResolver;
+
+import java.util.Map;
 
 /**
  * Utils - Spring
@@ -39,6 +37,7 @@ public final class SpringUtils implements ApplicationContextAware, DisposableBea
 	 * @param applicationContext
 	 *            ApplicationContext
 	 */
+	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) {
 		SpringUtils.applicationContext = applicationContext;
 	}
@@ -119,9 +118,10 @@ public final class SpringUtils implements ApplicationContextAware, DisposableBea
 	public static String getMessage(String code, Object... args) {
 		Assert.hasText(code);
 
-		LocaleResolver localeResolver = getBean("localeResolver", LocaleResolver.class);
-		Locale locale = localeResolver.resolveLocale(null);
-		return applicationContext.getMessage(code, args, locale);
+		//LocaleResolver localeResolver = getBean("localeResolver", LocaleResolver.class);
+		//Locale locale = localeResolver.resolveLocale(null);
+		//return applicationContext.getMessage(code, args, locale);
+		return code;
 	}
 
 	/**
