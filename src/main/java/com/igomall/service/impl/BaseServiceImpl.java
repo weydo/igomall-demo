@@ -109,8 +109,8 @@ public abstract class BaseServiceImpl<T extends BaseEntity<ID>, ID extends Seria
 
 	@Transactional
 	public T save(T entity) {
-		Assert.notNull(entity);
-		Assert.isTrue(entity.isNew());
+		Assert.notNull(entity,"");
+		Assert.isTrue(entity.isNew(),"");
 
 		baseDao.persist(entity);
 		return entity;
@@ -118,8 +118,8 @@ public abstract class BaseServiceImpl<T extends BaseEntity<ID>, ID extends Seria
 
 	@Transactional
 	public T update(T entity) {
-		Assert.notNull(entity);
-		Assert.isTrue(!entity.isNew());
+		Assert.notNull(entity,"");
+		Assert.isTrue(!entity.isNew(),"");
 
 		if (!baseDao.isManaged(entity)) {
 			T persistant = baseDao.find(baseDao.getIdentifier(entity));
@@ -133,9 +133,9 @@ public abstract class BaseServiceImpl<T extends BaseEntity<ID>, ID extends Seria
 
 	@Transactional
 	public T update(T entity, String... ignoreProperties) {
-		Assert.notNull(entity);
-		Assert.isTrue(!entity.isNew());
-		Assert.isTrue(!baseDao.isManaged(entity));
+		Assert.notNull(entity,"");
+		Assert.isTrue(!entity.isNew(),"");
+		Assert.isTrue(!baseDao.isManaged(entity),"");
 
 		T persistant = baseDao.find(baseDao.getIdentifier(entity));
 		if (persistant != null) {
@@ -177,8 +177,8 @@ public abstract class BaseServiceImpl<T extends BaseEntity<ID>, ID extends Seria
 	 *            忽略属性
 	 */
 	protected void copyProperties(T source, T target, String... ignoreProperties) {
-		Assert.notNull(source);
-		Assert.notNull(target);
+		Assert.notNull(source,"");
+		Assert.notNull(target,"");
 
 		PropertyDescriptor[] propertyDescriptors = PropertyUtils.getPropertyDescriptors(target);
 		for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
