@@ -1,15 +1,19 @@
 
 package com.igomall.service.impl;
 
+import com.igomall.common.Filter;
+import com.igomall.common.Order;
 import com.igomall.dao.ProductCategoryDao;
 import com.igomall.entity.ProductCategory;
 import com.igomall.service.ProductCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -24,86 +28,118 @@ public class ProductCategoryServiceImpl extends BaseServiceImpl<ProductCategory,
     @Autowired
     private ProductCategoryDao productCategoryDao;
 
-    @Override
+    @Transactional(readOnly = true)
+    public List<ProductCategory> findList(Integer count, List<Filter> filters, List<Order> orders) {
+        return productCategoryDao.findList(count, filters, orders);
+    }
+
     @Transactional(readOnly = true)
     public List<ProductCategory> findRoots() {
         return productCategoryDao.findRoots(null);
     }
 
-    @Override
     @Transactional(readOnly = true)
     public List<ProductCategory> findRoots(Integer count) {
         return productCategoryDao.findRoots(count);
     }
 
-    @Override
     @Transactional(readOnly = true)
-    public List<ProductCategory> findParents(ProductCategory area, boolean recursive, Integer count) {
-        return productCategoryDao.findParents(area, recursive, count);
+    @Cacheable(value = "productCategory", condition = "#useCache")
+    public List<ProductCategory> findRoots(Integer count, boolean useCache) {
+        return productCategoryDao.findRoots(count);
     }
 
-    @Override
     @Transactional(readOnly = true)
-    public List<ProductCategory> findChildren(ProductCategory area, boolean recursive, Integer count) {
-        return productCategoryDao.findChildren(area, recursive, count);
+    public List<ProductCategory> findParents(ProductCategory productCategory, boolean recursive, Integer count) {
+        return productCategoryDao.findParents(productCategory, recursive, count);
+    }
+
+    @Transactional(readOnly = true)
+    @Cacheable(value = "productCategory", condition = "#useCache")
+    public List<ProductCategory> findParents(Long productCategoryId, boolean recursive, Integer count, boolean useCache) {
+        ProductCategory productCategory = productCategoryDao.find(productCategoryId);
+        if (productCategoryId != null && productCategory == null) {
+            return Collections.emptyList();
+        }
+        return productCategoryDao.findParents(productCategory, recursive, count);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProductCategory> findTree() {
+        return productCategoryDao.findChildren(null, true, null);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProductCategory> findChildren(ProductCategory productCategory, boolean recursive, Integer count) {
+        return productCategoryDao.findChildren(productCategory, recursive, count);
+    }
+
+    @Transactional(readOnly = true)
+    @Cacheable(value = "productCategory", condition = "#useCache")
+    public List<ProductCategory> findChildren(Long productCategoryId, boolean recursive, Integer count, boolean useCache) {
+        ProductCategory productCategory = productCategoryDao.find(productCategoryId);
+        if (productCategoryId != null && productCategory == null) {
+            return Collections.emptyList();
+        }
+        return productCategoryDao.findChildren(productCategory, recursive, count);
     }
 
     @Override
     @Transactional
-    @CacheEvict(value = "productCategory", allEntries = true)
-    public ProductCategory save(ProductCategory area) {
-        Assert.notNull(area,"");
+    @CacheEvict(value = { "product", "productCategory" }, allEntries = true)
+    public ProductCategory save(ProductCategory productCategory) {
+        Assert.notNull(productCategory);
 
-        setValue(area);
-        return super.save(area);
+        setValue(productCategory);
+        return super.save(productCategory);
     }
 
     @Override
     @Transactional
-    @CacheEvict(value = "productCategory", allEntries = true)
-    public ProductCategory update(ProductCategory area) {
-        Assert.notNull(area,"");
+    @CacheEvict(value = { "product", "productCategory" }, allEntries = true)
+    public ProductCategory update(ProductCategory productCategory) {
+        Assert.notNull(productCategory);
 
-        setValue(area);
-        for (ProductCategory children : productCategoryDao.findChildren(area, true, null)) {
+        setValue(productCategory);
+        for (ProductCategory children : productCategoryDao.findChildren(productCategory, true, null)) {
             setValue(children);
         }
-        return super.update(area);
+        return super.update(productCategory);
     }
 
     @Override
     @Transactional
-    @CacheEvict(value = "productCategory", allEntries = true)
-    public ProductCategory update(ProductCategory area, String... ignoreProperties) {
-        return super.update(area, ignoreProperties);
+    @CacheEvict(value = { "product", "productCategory" }, allEntries = true)
+    public ProductCategory update(ProductCategory productCategory, String... ignoreProperties) {
+        return super.update(productCategory, ignoreProperties);
     }
 
     @Override
     @Transactional
-    @CacheEvict(value = "productCategory", allEntries = true)
+    @CacheEvict(value = { "product", "productCategory" }, allEntries = true)
     public void delete(Long id) {
         super.delete(id);
     }
 
     @Override
     @Transactional
-    @CacheEvict(value = "productCategory", allEntries = true)
+    @CacheEvict(value = { "product", "productCategory" }, allEntries = true)
     public void delete(Long... ids) {
         super.delete(ids);
     }
 
     @Override
     @Transactional
-    @CacheEvict(value = "productCategory", allEntries = true)
-    public void delete(ProductCategory area) {
-        super.delete(area);
+    @CacheEvict(value = { "product", "productCategory" }, allEntries = true)
+    public void delete(ProductCategory productCategory) {
+        super.delete(productCategory);
     }
 
     /**
      * 设置值
      *
      * @param productCategory
-     *            地区
+     *            商品分类
      */
     private void setValue(ProductCategory productCategory) {
         if (productCategory == null) {

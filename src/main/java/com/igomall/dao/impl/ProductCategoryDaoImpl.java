@@ -1,6 +1,8 @@
 
 package com.igomall.dao.impl;
 
+import com.igomall.common.Filter;
+import com.igomall.common.Order;
 import com.igomall.dao.ProductCategoryDao;
 import com.igomall.entity.ProductCategory;
 import org.apache.commons.collections.CollectionUtils;
@@ -9,6 +11,10 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.*;
 
 /**
@@ -20,7 +26,16 @@ import java.util.*;
 @Repository
 public class ProductCategoryDaoImpl extends BaseDaoImpl<ProductCategory, Long> implements ProductCategoryDao {
 
-    @Override
+    public List<ProductCategory> findList(Integer count, List<Filter> filters, List<Order> orders) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<ProductCategory> criteriaQuery = criteriaBuilder.createQuery(ProductCategory.class);
+        Root<ProductCategory> root = criteriaQuery.from(ProductCategory.class);
+        criteriaQuery.select(root);
+        Predicate restrictions = criteriaBuilder.conjunction();
+        criteriaQuery.where(restrictions);
+        return super.findList(criteriaQuery);
+    }
+
     public List<ProductCategory> findRoots(Integer count) {
         String jpql = "select productCategory from ProductCategory productCategory where productCategory.parent is null order by productCategory.order asc";
         TypedQuery<ProductCategory> query = entityManager.createQuery(jpql, ProductCategory.class);
@@ -30,7 +45,6 @@ public class ProductCategoryDaoImpl extends BaseDaoImpl<ProductCategory, Long> i
         return query.getResultList();
     }
 
-    @Override
     public List<ProductCategory> findParents(ProductCategory productCategory, boolean recursive, Integer count) {
         if (productCategory == null || productCategory.getParent() == null) {
             return Collections.emptyList();
@@ -49,7 +63,6 @@ public class ProductCategoryDaoImpl extends BaseDaoImpl<ProductCategory, Long> i
         return query.getResultList();
     }
 
-    @Override
     public List<ProductCategory> findChildren(ProductCategory productCategory, boolean recursive, Integer count) {
         TypedQuery<ProductCategory> query;
         if (recursive) {
@@ -112,5 +125,4 @@ public class ProductCategoryDaoImpl extends BaseDaoImpl<ProductCategory, Long> i
             }
         });
     }
-
 }

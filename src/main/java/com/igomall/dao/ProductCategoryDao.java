@@ -1,6 +1,8 @@
 
 package com.igomall.dao;
 
+import com.igomall.common.Filter;
+import com.igomall.common.Order;
 import com.igomall.entity.ProductCategory;
 
 import java.util.List;
@@ -14,6 +16,19 @@ import java.util.List;
 public interface ProductCategoryDao extends BaseDao<ProductCategory, Long> {
 
     /**
+     * 查找商品分类
+     *
+     * @param count
+     *            数量
+     * @param filters
+     *            筛选
+     * @param orders
+     *            排序
+     * @return 商品分类
+     */
+    List<ProductCategory> findList(Integer count, List<Filter> filters, List<Order> orders);
+
+    /**
      * 查找顶级商品分类
      *
      * @param count
@@ -23,7 +38,7 @@ public interface ProductCategoryDao extends BaseDao<ProductCategory, Long> {
     List<ProductCategory> findRoots(Integer count);
 
     /**
-     * 查找上级商品地区
+     * 查找上级商品分类
      *
      * @param productCategory
      *            商品分类
