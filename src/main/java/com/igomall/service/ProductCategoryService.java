@@ -1,6 +1,8 @@
 
 package com.igomall.service;
 
+import com.igomall.common.Filter;
+import com.igomall.common.Order;
 import com.igomall.entity.ProductCategory;
 
 import java.util.List;
@@ -14,6 +16,19 @@ import java.util.List;
 public interface ProductCategoryService extends BaseService<ProductCategory, Long> {
 
     /**
+     * 查找商品分类
+     *
+     * @param count
+     *            数量
+     * @param filters
+     *            筛选
+     * @param orders
+     *            排序
+     * @return 商品分类
+     */
+    List<ProductCategory> findList(Integer count, List<Filter> filters, List<Order> orders);
+
+    /**
      * 查找顶级商品分类
      *
      * @return 顶级商品分类
@@ -21,13 +36,24 @@ public interface ProductCategoryService extends BaseService<ProductCategory, Lon
     List<ProductCategory> findRoots();
 
     /**
-     * 查找顶级地区
+     * 查找顶级商品分类
      *
      * @param count
      *            数量
-     * @return 顶级地区
+     * @return 顶级商品分类
      */
     List<ProductCategory> findRoots(Integer count);
+
+    /**
+     * 查找顶级商品分类
+     *
+     * @param count
+     *            数量
+     * @param useCache
+     *            是否使用缓存
+     * @return 顶级商品分类
+     */
+    List<ProductCategory> findRoots(Integer count, boolean useCache);
 
     /**
      * 查找上级商品分类
@@ -43,10 +69,32 @@ public interface ProductCategoryService extends BaseService<ProductCategory, Lon
     List<ProductCategory> findParents(ProductCategory productCategory, boolean recursive, Integer count);
 
     /**
+     * 查找上级商品分类
+     *
+     * @param productCategoryId
+     *            商品分类ID
+     * @param recursive
+     *            是否递归
+     * @param count
+     *            数量
+     * @param useCache
+     *            是否使用缓存
+     * @return 上级商品分类
+     */
+    List<ProductCategory> findParents(Long productCategoryId, boolean recursive, Integer count, boolean useCache);
+
+    /**
+     * 查找商品分类树
+     *
+     * @return 商品分类树
+     */
+    List<ProductCategory> findTree();
+
+    /**
      * 查找下级商品分类
      *
      * @param productCategory
-     *            地区
+     *            商品分类
      * @param recursive
      *            是否递归
      * @param count
@@ -54,5 +102,20 @@ public interface ProductCategoryService extends BaseService<ProductCategory, Lon
      * @return 下级商品分类
      */
     List<ProductCategory> findChildren(ProductCategory productCategory, boolean recursive, Integer count);
+
+    /**
+     * 查找下级商品分类
+     *
+     * @param productCategoryId
+     *            商品分类ID
+     * @param recursive
+     *            是否递归
+     * @param count
+     *            数量
+     * @param useCache
+     *            是否使用缓存
+     * @return 下级商品分类
+     */
+    List<ProductCategory> findChildren(Long productCategoryId, boolean recursive, Integer count, boolean useCache);
 
 }

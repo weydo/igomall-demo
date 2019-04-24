@@ -65,7 +65,7 @@ public class BaseController {
 	 * @return 验证结果
 	 */
 	protected boolean isValid(Object target, Class<?>... groups) {
-		Assert.notNull(target);
+		Assert.notNull(target,"");
 
 		Set<ConstraintViolation<Object>> constraintViolations = validator.validate(target, groups);
 		if (constraintViolations.isEmpty()) {
@@ -86,7 +86,7 @@ public class BaseController {
 	 * @return 验证结果
 	 */
 	protected boolean isValid(Collection<Object> targets, Class<?>... groups) {
-		Assert.notEmpty(targets);
+		Assert.notEmpty(targets,"");
 
 		for (Object target : targets) {
 			if (!isValid(target, groups)) {
@@ -110,8 +110,8 @@ public class BaseController {
 	 * @return 验证结果
 	 */
 	protected boolean isValid(Class<?> type, String property, Object value, Class<?>... groups) {
-		Assert.notNull(type);
-		Assert.hasText(property);
+		Assert.notNull(type,"");
+		Assert.hasText(property,"");
 
 		Set<?> constraintViolations = validator.validateValue(type, property, value, groups);
 		if (constraintViolations.isEmpty()) {
@@ -134,8 +134,8 @@ public class BaseController {
 	 * @return 验证结果
 	 */
 	protected boolean isValid(Class<?> type, Map<String, Object> properties, Class<?>... groups) {
-		Assert.notNull(type);
-		Assert.notEmpty(properties);
+		Assert.notNull(type,"");
+		Assert.notEmpty(properties,"");
 
 		for (Map.Entry<String, Object> entry : properties.entrySet()) {
 			if (!isValid(type, entry.getKey(), entry.getValue(), groups)) {

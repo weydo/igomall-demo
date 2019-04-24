@@ -76,6 +76,7 @@ public abstract class BaseDaoImpl<T extends BaseEntity<ID>, ID extends Serializa
 		entityClass = (Class<T>) resolvableType.as(BaseDaoImpl.class).getGeneric().resolve();
 	}
 
+	@Override
 	public boolean exists(String attributeName, Object attributeValue) {
 		Assert.hasText(attributeName,"");
 
@@ -88,6 +89,7 @@ public abstract class BaseDaoImpl<T extends BaseEntity<ID>, ID extends Serializa
 		return query.getSingleResult() > 0;
 	}
 
+	@Override
 	public boolean exists(String attributeName, String attributeValue, boolean ignoreCase) {
 		Assert.hasText(attributeName,"");
 
@@ -104,6 +106,7 @@ public abstract class BaseDaoImpl<T extends BaseEntity<ID>, ID extends Serializa
 		return query.getSingleResult() > 0;
 	}
 
+	@Override
 	public boolean unique(ID id, String attributeName, Object attributeValue) {
 		Assert.hasText(attributeName,"");
 
@@ -120,6 +123,7 @@ public abstract class BaseDaoImpl<T extends BaseEntity<ID>, ID extends Serializa
 		}
 	}
 
+	@Override
 	public boolean unique(ID id, String attributeName, String attributeValue, boolean ignoreCase) {
 		Assert.hasText(attributeName,"");
 
@@ -140,6 +144,7 @@ public abstract class BaseDaoImpl<T extends BaseEntity<ID>, ID extends Serializa
 		}
 	}
 
+	@Override
 	public T find(ID id) {
 		if (id == null) {
 			return null;
@@ -147,6 +152,7 @@ public abstract class BaseDaoImpl<T extends BaseEntity<ID>, ID extends Serializa
 		return entityManager.find(entityClass, id);
 	}
 
+	@Override
 	public T find(ID id, LockModeType lockModeType) {
 		if (id == null) {
 			return null;
@@ -158,18 +164,21 @@ public abstract class BaseDaoImpl<T extends BaseEntity<ID>, ID extends Serializa
 		}
 	}
 
+	@Override
 	public T find(String attributeName, Object attributeValue) {
 		Assert.hasText(attributeName,"");
 
 		return find(attributeName, attributeValue, null);
 	}
 
+	@Override
 	public T find(String attributeName, String attributeValue, boolean ignoreCase) {
 		Assert.hasText(attributeName,"");
 
 		return find(attributeName, attributeValue, ignoreCase, null);
 	}
 
+	@Override
 	public T find(String attributeName, Object attributeValue, LockModeType lockModeType) {
 		Assert.hasText(attributeName,"");
 
@@ -189,6 +198,7 @@ public abstract class BaseDaoImpl<T extends BaseEntity<ID>, ID extends Serializa
 		}
 	}
 
+	@Override
 	public T find(String attributeName, String attributeValue, boolean ignoreCase, LockModeType lockModeType) {
 		Assert.hasText(attributeName,"");
 
@@ -213,6 +223,7 @@ public abstract class BaseDaoImpl<T extends BaseEntity<ID>, ID extends Serializa
 		}
 	}
 
+	@Override
 	public List<T> findList(Integer first, Integer count, List<Filter> filters, List<Order> orders) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
@@ -220,6 +231,7 @@ public abstract class BaseDaoImpl<T extends BaseEntity<ID>, ID extends Serializa
 		return findList(criteriaQuery, first, count, filters, orders);
 	}
 
+	@Override
 	public Page<T> findPage(Pageable pageable) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
@@ -227,6 +239,7 @@ public abstract class BaseDaoImpl<T extends BaseEntity<ID>, ID extends Serializa
 		return findPage(criteriaQuery, pageable);
 	}
 
+	@Override
 	public long count(Filter... filters) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
@@ -234,30 +247,35 @@ public abstract class BaseDaoImpl<T extends BaseEntity<ID>, ID extends Serializa
 		return count(criteriaQuery, ArrayUtils.isNotEmpty(filters) ? Arrays.asList(filters) : null);
 	}
 
+	@Override
 	public void persist(T entity) {
 		Assert.notNull(entity,"");
 
 		entityManager.persist(entity);
 	}
 
+	@Override
 	public T merge(T entity) {
 		Assert.notNull(entity,"");
 
 		return entityManager.merge(entity);
 	}
 
+	@Override
 	public void remove(T entity) {
 		if (entity != null) {
 			entityManager.remove(entity);
 		}
 	}
 
+	@Override
 	public void refresh(T entity) {
 		if (entity != null) {
 			entityManager.refresh(entity);
 		}
 	}
 
+	@Override
 	public void refresh(T entity, LockModeType lockModeType) {
 		if (entity != null) {
 			if (lockModeType != null) {
@@ -269,18 +287,21 @@ public abstract class BaseDaoImpl<T extends BaseEntity<ID>, ID extends Serializa
 	}
 
 	@SuppressWarnings("unchecked")
+	@Override
 	public ID getIdentifier(T entity) {
 		Assert.notNull(entity,"");
 
 		return (ID) entityManager.getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(entity);
 	}
 
+	@Override
 	public boolean isLoaded(T entity) {
 		Assert.notNull(entity,"");
 
 		return entityManager.getEntityManagerFactory().getPersistenceUnitUtil().isLoaded(entity);
 	}
 
+	@Override
 	public boolean isLoaded(T entity, String attributeName) {
 		Assert.notNull(entity,"");
 		Assert.hasText(attributeName,"");
@@ -288,34 +309,40 @@ public abstract class BaseDaoImpl<T extends BaseEntity<ID>, ID extends Serializa
 		return entityManager.getEntityManagerFactory().getPersistenceUnitUtil().isLoaded(entity, attributeName);
 	}
 
+	@Override
 	public boolean isManaged(T entity) {
 		Assert.notNull(entity,"");
 
 		return entityManager.contains(entity);
 	}
 
+	@Override
 	public void detach(T entity) {
 		if (entity != null) {
 			entityManager.detach(entity);
 		}
 	}
 
+	@Override
 	public LockModeType getLockMode(T entity) {
 		Assert.notNull(entity,"");
 
 		return entityManager.getLockMode(entity);
 	}
 
+	@Override
 	public void lock(T entity, LockModeType lockModeType) {
 		if (entity != null && lockModeType != null) {
 			entityManager.lock(entity, lockModeType);
 		}
 	}
 
+	@Override
 	public void clear() {
 		entityManager.clear();
 	}
 
+	@Override
 	public void flush() {
 		entityManager.flush();
 	}

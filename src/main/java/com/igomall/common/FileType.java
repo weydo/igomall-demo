@@ -4,8 +4,8 @@ package com.igomall.common;
 /**
  * 文件类型
  * 
- * @author IGOMALL Team
- * @version 5.0
+ * @author IGOMALL  Team
+ * @version 1.0
  */
 public enum FileType {
 

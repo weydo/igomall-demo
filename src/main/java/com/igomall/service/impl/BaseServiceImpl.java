@@ -108,6 +108,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity<ID>, ID extends Seria
 	}
 
 	@Transactional
+	@Override
 	public T save(T entity) {
 		Assert.notNull(entity,"");
 		Assert.isTrue(entity.isNew(),"");
@@ -117,6 +118,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity<ID>, ID extends Seria
 	}
 
 	@Transactional
+	@Override
 	public T update(T entity) {
 		Assert.notNull(entity,"");
 		Assert.isTrue(!entity.isNew(),"");
@@ -132,6 +134,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity<ID>, ID extends Seria
 	}
 
 	@Transactional
+	@Override
 	public T update(T entity, String... ignoreProperties) {
 		Assert.notNull(entity,"");
 		Assert.isTrue(!entity.isNew(),"");
@@ -145,12 +148,14 @@ public abstract class BaseServiceImpl<T extends BaseEntity<ID>, ID extends Seria
 	}
 
 	@Transactional
+	@Override
 	public void delete(ID id) {
 		delete(baseDao.find(id));
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional
+	@Override
 	public void delete(ID... ids) {
 		if (ids != null) {
 			for (ID id : ids) {
@@ -160,6 +165,7 @@ public abstract class BaseServiceImpl<T extends BaseEntity<ID>, ID extends Seria
 	}
 
 	@Transactional
+	@Override
 	public void delete(T entity) {
 		if (entity != null) {
 			baseDao.remove(baseDao.isManaged(entity) ? entity : baseDao.merge(entity));

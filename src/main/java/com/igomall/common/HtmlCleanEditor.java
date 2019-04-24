@@ -10,8 +10,8 @@ import org.jsoup.safety.Whitelist;
 /**
  * Editor - HTML清理
  * 
- * @author IGOMALL Team
- * @version 5.0
+ * @author IGOMALL  Team
+ * @version 1.0
  */
 public class HtmlCleanEditor extends PropertyEditorSupport {
 
