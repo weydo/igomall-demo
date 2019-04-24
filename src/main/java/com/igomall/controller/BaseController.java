@@ -1,7 +1,6 @@
 
 package com.igomall.controller;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
@@ -19,10 +18,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.igomall.util.SpringUtils;
-import com.igomall.util.SystemUtils;
 
 /**
  * Controller - 基类
@@ -40,12 +35,12 @@ public class BaseController {
 	/**
 	 * 错误消息
 	 */
-	protected static final Message ERROR_MESSAGE = Message.error("common.message.error");
+	protected static final Message ERROR_MESSAGE = Message.error("错误");
 
 	/**
 	 * 成功消息
 	 */
-	protected static final Message SUCCESS_MESSAGE = Message.success("common.message.success");
+	protected static final Message SUCCESS_MESSAGE = Message.success("操作成功");
 
 	/**
 	 * "验证结果"属性名称
