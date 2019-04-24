@@ -34,7 +34,7 @@ public class Area extends OrderedEntity<Long> {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	@JsonView({ListView.class})
+	@JsonView({ListView.class,BaseView.class})
 	private String name;
 
 	/**

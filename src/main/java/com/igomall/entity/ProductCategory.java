@@ -46,7 +46,7 @@ public class ProductCategory extends OrderedEntity<Long> {
 	@NotEmpty
 	@Length(max = 200)
 	@Column(nullable = false)
-	@JsonView({ListView.class})
+	@JsonView({ListView.class,PageView.class})
 	private String name;
 
 	/**
@@ -434,5 +434,6 @@ public class ProductCategory extends OrderedEntity<Long> {
 	}
 
 	public interface ListView extends BaseView {}
+	public interface PageView extends BaseView {}
 
 }
