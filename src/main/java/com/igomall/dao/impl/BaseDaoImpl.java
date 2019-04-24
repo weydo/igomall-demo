@@ -98,7 +98,7 @@ public abstract class BaseDaoImpl<T extends BaseEntity<ID>, ID extends Serializa
 		Root<T> root = criteriaQuery.from(entityClass);
 		criteriaQuery.select(criteriaBuilder.count(root));
 		if (ignoreCase) {
-			criteriaQuery.where(criteriaBuilder.equal(criteriaBuilder.lower(root.<String>get(attributeName)), StringUtils.lowerCase(attributeValue)));
+			criteriaQuery.where(criteriaBuilder.equal(criteriaBuilder.lower(root.get(attributeName)), StringUtils.lowerCase(attributeValue)));
 		} else {
 			criteriaQuery.where(criteriaBuilder.equal(root.get(attributeName), attributeValue));
 		}
@@ -133,7 +133,7 @@ public abstract class BaseDaoImpl<T extends BaseEntity<ID>, ID extends Serializa
 			Root<T> root = criteriaQuery.from(entityClass);
 			criteriaQuery.select(criteriaBuilder.count(root));
 			if (ignoreCase) {
-				criteriaQuery.where(criteriaBuilder.and(criteriaBuilder.equal(criteriaBuilder.lower(root.<String>get(attributeName)), StringUtils.lowerCase(attributeValue)), criteriaBuilder.notEqual(root.get(BaseEntity.ID_PROPERTY_NAME), id)));
+				criteriaQuery.where(criteriaBuilder.and(criteriaBuilder.equal(criteriaBuilder.lower(root.get(attributeName)), StringUtils.lowerCase(attributeValue)), criteriaBuilder.notEqual(root.get(BaseEntity.ID_PROPERTY_NAME), id)));
 			} else {
 				criteriaQuery.where(criteriaBuilder.and(criteriaBuilder.equal(root.get(attributeName), attributeValue), criteriaBuilder.notEqual(root.get(BaseEntity.ID_PROPERTY_NAME), id)));
 			}
@@ -208,7 +208,7 @@ public abstract class BaseDaoImpl<T extends BaseEntity<ID>, ID extends Serializa
 		criteriaQuery.select(root);
 		criteriaQuery.where();
 		if (ignoreCase) {
-			criteriaQuery.where(criteriaBuilder.equal(criteriaBuilder.lower(root.<String>get(attributeName)), StringUtils.lowerCase(attributeValue)));
+			criteriaQuery.where(criteriaBuilder.equal(criteriaBuilder.lower(root.get(attributeName)), StringUtils.lowerCase(attributeValue)));
 		} else {
 			criteriaQuery.where(criteriaBuilder.equal(root.get(attributeName), attributeValue));
 		}
