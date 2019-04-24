@@ -8,8 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Editor - 字符串
  * 
- * @author IGOMALL Team
- * @version 5.0
+ * @author IGOMALL  Team
+ * @version 1.0
  */
 public class StringEditor extends PropertyEditorSupport {
 

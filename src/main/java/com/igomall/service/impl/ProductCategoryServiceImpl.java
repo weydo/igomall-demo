@@ -34,6 +34,7 @@ public class ProductCategoryServiceImpl extends BaseServiceImpl<ProductCategory,
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "productCategory")
     public List<ProductCategory> findRoots() {
         return productCategoryDao.findRoots(null);
     }

@@ -68,14 +68,16 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 	private UserDao userDao;
 
 	@Transactional(readOnly = true)
+	@Override
 	public User getCurrentAuditor() {
 		return getCurrent();
 	}
 
 	@Transactional(noRollbackFor = AuthenticationException.class)
+	@Override
 	public User getUser(AuthenticationToken authenticationToken) {
-		Assert.notNull(authenticationToken);
-		Assert.state(authenticationToken instanceof UserAuthenticationToken);
+		Assert.notNull(authenticationToken,"");
+		Assert.state(authenticationToken instanceof UserAuthenticationToken,"");
 
 		User user = null;
 		if (authenticationToken instanceof UserAuthenticationToken) {
@@ -117,24 +119,27 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 	}
 
 	@Transactional(readOnly = true)
+	@Override
 	public Set<String> getPermissions(User user) {
-		Assert.notNull(user);
+		Assert.notNull(user,"");
 
 		AuthenticationProvider authenticationProvider = getAuthenticationProvider(user.getClass());
 		return authenticationProvider != null ? authenticationProvider.getPermissions(user) : null;
 	}
 
+	@Override
 	public void register(User user) {
-		Assert.notNull(user);
-		Assert.isTrue(user.isNew());
+		Assert.notNull(user,"");
+		Assert.isTrue(user.isNew(),"");
 
 		userDao.persist(user);
 
 		applicationEventPublisher.publishEvent(new UserRegisteredEvent(this, user));
 	}
 
+	@Override
 	public void login(AuthenticationToken authenticationToken) {
-		Assert.notNull(authenticationToken);
+		Assert.notNull(authenticationToken,"");
 
 		Subject subject = SecurityUtils.getSubject();
 		subject.login(authenticationToken);
@@ -142,6 +147,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 		applicationEventPublisher.publishEvent(new UserLoggedInEvent(this, getCurrent()));
 	}
 
+	@Override
 	public void logout() {
 		applicationEventPublisher.publishEvent(new UserLoggedOutEvent(this, getCurrent()));
 
@@ -150,17 +156,20 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 	}
 
 	@Transactional(readOnly = true)
+	@Override
 	public User getCurrent() {
 		return getCurrent(null, null);
 	}
 
 	@Transactional(readOnly = true)
+	@Override
 	public <T extends User> T getCurrent(Class<T> userClass) {
 		return getCurrent(userClass, null);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true)
+	@Override
 	public <T extends User> T getCurrent(Class<T> userClass, LockModeType lockModeType) {
 		Subject subject = SecurityUtils.getSubject();
 		User principal = subject != null && subject.getPrincipal() instanceof User ? (User) subject.getPrincipal() : null;
@@ -174,9 +183,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 	}
 
 	@Transactional(readOnly = true)
+	@Override
 	public int getFailedLoginAttempts(User user) {
-		Assert.notNull(user);
-		Assert.isTrue(!user.isNew());
+		Assert.notNull(user,"");
+		Assert.isTrue(!user.isNew(),"");
 
 		Ehcache cache = cacheManager.getEhcache(User.FAILED_LOGIN_ATTEMPTS_CACHE_NAME);
 		Element element = cache.get(user.getId());
@@ -185,9 +195,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 	}
 
 	@Transactional(readOnly = true)
+	@Override
 	public void addFailedLoginAttempt(User user) {
-		Assert.notNull(user);
-		Assert.isTrue(!user.isNew());
+		Assert.notNull(user,"");
+		Assert.isTrue(!user.isNew(),"");
 
 		Long userId = user.getId();
 		Ehcache cache = cacheManager.getEhcache(User.FAILED_LOGIN_ATTEMPTS_CACHE_NAME);
@@ -206,17 +217,19 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 	}
 
 	@Transactional(readOnly = true)
+	@Override
 	public void resetFailedLoginAttempts(User user) {
-		Assert.notNull(user);
-		Assert.isTrue(!user.isNew());
+		Assert.notNull(user,"");
+		Assert.isTrue(!user.isNew(),"");
 
 		Ehcache cache = cacheManager.getEhcache(User.FAILED_LOGIN_ATTEMPTS_CACHE_NAME);
 		cache.remove(user.getId());
 	}
 
+	@Override
 	public boolean tryLock(User user) {
-		Assert.notNull(user);
-		Assert.isTrue(!user.isNew());
+		Assert.notNull(user,"");
+		Assert.isTrue(!user.isNew(),"");
 
 		if (BooleanUtils.isTrue(user.getIsLocked())) {
 			return true;
@@ -234,9 +247,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 		return false;
 	}
 
+	@Override
 	public boolean tryUnlock(User user) {
-		Assert.notNull(user);
-		Assert.isTrue(!user.isNew());
+		Assert.notNull(user,"");
+		Assert.isTrue(!user.isNew(),"");
 
 		if (BooleanUtils.isFalse(user.getIsLocked())) {
 			return true;
@@ -254,9 +268,10 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 		return false;
 	}
 
+	@Override
 	public void unlock(User user) {
-		Assert.notNull(user);
-		Assert.isTrue(!user.isNew());
+		Assert.notNull(user,"");
+		Assert.isTrue(!user.isNew(),"");
 
 		if (BooleanUtils.isFalse(user.getIsLocked())) {
 			return;
@@ -317,7 +332,7 @@ public class UserServiceImpl extends BaseServiceImpl<User, Long> implements User
 	 * @return 认证Provider，若不存在则返回null
 	 */
 	private AuthenticationProvider getAuthenticationProvider(Class<?> userClass) {
-		Assert.notNull(userClass);
+		Assert.notNull(userClass,"");
 
 		if (AUTHENTICATION_PROVIDER_CACHE.containsKey(userClass)) {
 			return AUTHENTICATION_PROVIDER_CACHE.get(userClass);

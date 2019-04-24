@@ -12,8 +12,8 @@ import org.apache.commons.lang3.time.DateUtils;
 /**
  * Editor - 日期
  * 
- * @author IGOMALL Team
- * @version 5.0
+ * @author IGOMALL  Team
+ * @version 1.0
  */
 public class DateEditor extends PropertyEditorSupport {
 

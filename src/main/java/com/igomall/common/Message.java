@@ -6,8 +6,8 @@ import com.igomall.util.SpringUtils;
 /**
  * 消息
  * 
- * @author IGOMALL Team
- * @version 5.0
+ * @author IGOMALL  Team
+ * @version 1.0
  */
 public class Message {
 
@@ -20,23 +20,16 @@ public class Message {
 		 * 成功
 		 */
 		success,
-		
-		/**
-		 * 错误
-		 */
-		error,
-		
-		info,
 
 		/**
 		 * 警告
 		 */
-		warning,
-		
-		/**
-		 * 
-		 */
 		warn,
+
+		/**
+		 * 错误
+		 */
+		error
 	}
 
 	/**
@@ -95,37 +88,7 @@ public class Message {
 	public static Message success(String content, Object... args) {
 		return new Message(Type.success, content, args);
 	}
-	
-	/**
-	 * 返回错误消息
-	 * 
-	 * @param content
-	 *            内容
-	 * @param args
-	 *            参数
-	 * @return 错误消息
-	 */
-	public static Message error(String content, Object... args) {
-		return new Message(Type.error, content, args);
-	}
-	
-	public static Message info(String content, Object... args) {
-		return new Message(Type.info, content, args);
-	}
 
-	/**
-	 * 返回警告消息
-	 * 
-	 * @param content
-	 *            内容
-	 * @param args
-	 *            参数
-	 * @return 警告消息
-	 */
-	public static Message warning(String content, Object... args) {
-		return new Message(Type.warning, content, args);
-	}
-	
 	/**
 	 * 返回警告消息
 	 * 
@@ -139,7 +102,18 @@ public class Message {
 		return new Message(Type.warn, content, args);
 	}
 
-	
+	/**
+	 * 返回错误消息
+	 * 
+	 * @param content
+	 *            内容
+	 * @param args
+	 *            参数
+	 * @return 错误消息
+	 */
+	public static Message error(String content, Object... args) {
+		return new Message(Type.error, content, args);
+	}
 
 	/**
 	 * 获取类型

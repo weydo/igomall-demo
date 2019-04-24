@@ -25,8 +25,8 @@ import org.springframework.web.servlet.view.AbstractView;
 /**
  * Excel视图
  * 
- * @author IGOMALL Team
- * @version 5.0
+ * @author IGOMALL  Team
+ * @version 1.0
  */
 public class ExcelView extends AbstractView {
 

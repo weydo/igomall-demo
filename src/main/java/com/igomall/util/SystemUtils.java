@@ -142,7 +142,7 @@ public final class SystemUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void setSetting(Setting setting) {
-		Assert.notNull(setting);
+		Assert.notNull(setting,"");
 
 		try {
 			File shopxxXmlFile = new ClassPathResource(CommonAttributes.SHOPXX_XML_PATH).getFile();
@@ -206,7 +206,7 @@ public final class SystemUtils {
 	 * @return 模板配置
 	 */
 	public static TemplateConfig getTemplateConfig(String id) {
-		Assert.hasText(id);
+		Assert.hasText(id,"");
 
 		Ehcache cache = CACHE_MANAGER.getEhcache(TemplateConfig.CACHE_NAME);
 		String cacheKey = "templateConfig_" + id;
@@ -280,7 +280,7 @@ public final class SystemUtils {
 	 * @return 模板配置
 	 */
 	private static TemplateConfig getTemplateConfig(org.dom4j.Element element) {
-		Assert.notNull(element);
+		Assert.notNull(element,"");
 
 		String id = element.attributeValue("id");
 		String type = element.attributeValue("type");
