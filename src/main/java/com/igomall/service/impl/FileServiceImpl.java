@@ -78,7 +78,7 @@ public class FileServiceImpl implements FileService {
 		Assert.notNull(storagePlugin,"");
 		Assert.hasText(path,"");
 		Assert.notNull(file,"");
-		Assert.hasText(contentType);
+		Assert.hasText(contentType,"");
 
 		try {
 			storagePlugin.upload(path, file, contentType);
@@ -88,9 +88,9 @@ public class FileServiceImpl implements FileService {
 	}
 
 	public boolean isValid(FileType fileType, MultipartFile multipartFile) {
-		Assert.notNull(fileType);
-		Assert.notNull(multipartFile);
-		Assert.state(!multipartFile.isEmpty());
+		Assert.notNull(fileType,"");
+		Assert.notNull(multipartFile,"");
+		Assert.state(!multipartFile.isEmpty(),"");
 
 		Setting setting = SystemUtils.getSetting();
 		if (setting.getUploadMaxSize() != null && setting.getUploadMaxSize() != 0 && multipartFile.getSize() > setting.getUploadMaxSize() * 1024L * 1024L) {
@@ -115,9 +115,9 @@ public class FileServiceImpl implements FileService {
 	}
 
 	public String upload(FileType fileType, MultipartFile multipartFile, boolean async) {
-		Assert.notNull(fileType);
-		Assert.notNull(multipartFile);
-		Assert.state(!multipartFile.isEmpty());
+		Assert.notNull(fileType,"");
+		Assert.notNull(multipartFile,"");
+		Assert.state(!multipartFile.isEmpty(),"");
 
 		Setting setting = SystemUtils.getSetting();
 		String uploadPath;
