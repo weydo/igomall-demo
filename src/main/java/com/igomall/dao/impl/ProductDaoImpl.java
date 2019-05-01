@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 /**
  * Dao - 商品
  * 
- * @author SHOP++ Team
- * @version 5.0
+ * @author blackboy
+ * @version 1.0
  */
 @Repository
 public class ProductDaoImpl extends BaseDaoImpl<Product, Long> implements ProductDao {

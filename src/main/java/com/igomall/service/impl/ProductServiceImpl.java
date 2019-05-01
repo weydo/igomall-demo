@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 /**
  * Service - 商品
  * 
- * @author SHOP++ Team
- * @version 5.0
+ * @author blackboy
+ * @version 1.0
  */
 @Service
 public class ProductServiceImpl extends BaseServiceImpl<Product, Long> implements ProductService {

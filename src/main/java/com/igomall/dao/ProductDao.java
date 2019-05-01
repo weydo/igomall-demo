@@ -6,8 +6,8 @@ import com.igomall.entity.Product;
 /**
  * Dao - 商品
  * 
- * @author SHOP++ Team
- * @version 5.0
+ * @author blackboy
+ * @version 1.0
  */
 public interface ProductDao extends BaseDao<Product, Long> {
 

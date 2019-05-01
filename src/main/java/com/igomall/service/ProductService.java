@@ -6,8 +6,8 @@ import com.igomall.entity.Product;
 /**
  * Service - 商品
  * 
- * @author SHOP++ Team
- * @version 5.0
+ * @author blackboy
+ * @version 1.0
  */
 public interface ProductService extends BaseService<Product, Long> {
 

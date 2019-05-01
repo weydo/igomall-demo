@@ -1,6 +1,7 @@
 
 package com.igomall.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.igomall.common.BigDecimalNumericFieldBridge;
 import org.hibernate.search.annotations.Index;
@@ -55,12 +56,17 @@ public class Product extends BaseEntity<Long> {
 	@Lob
 	private String introduction;
 
+
+	@JsonView(ListView.class)
+	private BigDecimal price;
+
 	/**
 	 * 商品分类
 	 */
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
+	@JsonIgnore
 	private ProductCategory productCategory;
 
 	/**
@@ -110,6 +116,14 @@ public class Product extends BaseEntity<Long> {
 		return introduction;
 	}
 
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
 	/**
 	 * 设置介绍
 	 * 
@@ -139,5 +153,9 @@ public class Product extends BaseEntity<Long> {
 		this.productCategory = productCategory;
 	}
 
+
+	public interface ListView extends BaseView{
+
+	}
 
 }
